@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.countries-drawer-out{
+    @apply absolute w-80 bg-white my-1 z-50 mt-2 px-2 h-[100vh] overflow-y-scroll
+}
+.countries-drawer-in{
+    @apply absolute w-80 left-[-320px]
+}
+
+.custom-scroll::-webkit-scrollbar-thumb{
+width: 8px;
+background: #ccc;
+border-radius: 5px;
+}
+.custom-scroll::-webkit-scrollbar{
+width: 8px;
+}
+
+.country-animate{
+    box-shadow: 5px 10px 15px #ccc;
+    animation: country 1s ease-in
+}
+@keyframes country {
+    from{
+        left: -320px;
+    }
+    to{
+        left: 0;
+    }
+}
+.categories-drawer-out{
+    @apply absolute w-80 bg-white my-1 z-50 mt-2 px-2 h-[100vh] overflow-y-scroll right-0
+}
+.categories-drawer-in{
+    @apply absolute right-[-320px] hidden
+}
+
+
+.category-animate{
+    box-shadow: 5px 10px 15px #ccc;
+    animation: category 1s ease-in
+}
+@keyframes category {
+    from{
+        right: -320px;
+    }
+    to{
+        right: 0;
+    }
+}
+body{
+    background-color: #ccc;
+}

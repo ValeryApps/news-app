@@ -1,0 +1,47 @@
+.index1{
+ width: 59%;
+ height: 50%;
+ overflow: hidden;
+}
+.index1 img{
+    width: 99%;
+    height: 96%;
+    object-fit: cover;
+}
+.index2{
+    width: 40%;
+    height: 50%;
+}
+.index2 img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.index3{
+    width: 59%;
+    height: 50%;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0px;
+    right: -1px;
+}
+.index3 img{
+    width: 98%;
+    height: 100%;
+    object-fit: cover;
+    transform: translateX(5px);
+}
+.index4{
+    width: 40%;
+    height: 50%;
+    position: absolute;
+    overflow: hidden;
+    right: 1px;
+    justify-content: end;
+    bottom: 168px;
+}
+.index4 img{
+    width: 100%;
+    height: 96%;
+    object-fit: cover;
+}
