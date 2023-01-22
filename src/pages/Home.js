@@ -66,7 +66,7 @@ export const Home = () => {
             <PostsCategory posts={techPosts} />
           </div>
         </div>
-        <div className="w-[25%] hidden md:block bg-white shadow-md">
+        <div className="w-[25%] hidden md:block bg-white shadow-md mt-6">
           <RightSide />
         </div>
       </div>

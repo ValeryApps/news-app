@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { countries } from "../data/countries";
 
-export const CountriesDrawer = ({ visible }) => {
+export const CountriesDrawer = ({ visible, setVisible }) => {
   const { pathname } = useLocation();
   return (
     <div
@@ -27,6 +27,7 @@ export const CountriesDrawer = ({ visible }) => {
               to={"/countries/" + value}
               className="            
               text-xl font-semibold text-teal-800"
+              onClick={() => setVisible(!visible)}
             >
               {name}
             </Link>

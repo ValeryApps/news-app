@@ -17,7 +17,7 @@ export const AppHeader = () => {
   return (
     <>
       <div className="hidden md:block">
-        <AppIntro visible={isVisible} />
+        <AppIntro visible={isVisible} setVisible={setIsVisible} />
       </div>
       <div className="w-full bg-teal-900 sticky top-0 py-2 z-50">
         <nav className="max-w-[90%] flex justify-between items-center mx-auto relative">
@@ -66,7 +66,17 @@ export const AppHeader = () => {
               More News...
             </div>
           </div>
-          <div>LOGIN</div>
+          <div className="flex gap-3 items-center">
+            <Link className="text-white" to="/login">
+              LOGIN
+            </Link>
+            <Link
+              className="bg-teal-500 px-3 py-1 rounded-md text-white"
+              to="/register"
+            >
+              SIGN UP
+            </Link>
+          </div>
           <div
             onClick={() => setIsCategoryDrawer(!isCategoryDrawer)}
             className="md:hidden"
@@ -74,8 +84,14 @@ export const AppHeader = () => {
             <BsThreeDots className="text-white cursor-pointer" />
           </div>
         </nav>
-        <CountriesDrawer visible={isCountryDrawer} />
-        <CategoriesDrawer visible={isCategoryDrawer} />
+        <CountriesDrawer
+          visible={isCountryDrawer}
+          setVisible={setIsCountryDrawer}
+        />
+        <CategoriesDrawer
+          visible={isCategoryDrawer}
+          setVisible={setIsCategoryDrawer}
+        />
       </div>
     </>
   );

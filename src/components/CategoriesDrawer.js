@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { categories } from "../data/categories";
 
-export const CategoriesDrawer = ({ visible }) => {
+export const CategoriesDrawer = ({ visible, setVisible }) => {
   const { pathname } = useLocation();
   return (
     <div
@@ -27,6 +27,7 @@ export const CategoriesDrawer = ({ visible }) => {
               to={"/categories/" + link}
               className="            
             text-xl font-semibold text-teal-800"
+              onClick={() => setVisible(!visible)}
             >
               {text}
             </Link>

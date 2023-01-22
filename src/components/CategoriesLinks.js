@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { categories } from "../data/categories";
 
-export const CategoriesLinks = () => {
+export const CategoriesLinks = ({ setVisible }) => {
   return (
     <div className="flex items-center gap-3 shadow-md px-2 rounded-md bg-white opacity-50 justify-between ">
       {categories.slice(3).map(({ link, text, icon }) => (
@@ -11,6 +11,7 @@ export const CategoriesLinks = () => {
           <Link
             to={"/categories/" + link}
             className="text-black font-bold text-md p-3"
+            onClick={() => setVisible(false)}
           >
             {text}
           </Link>
