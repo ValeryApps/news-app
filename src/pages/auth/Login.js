@@ -2,12 +2,14 @@ import { useState } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { FiLock, FiLogIn } from "react-icons/fi";
 import { ImEye, ImEyeBlocked } from "react-icons/im";
-import { Link } from "react-router-dom";
-import { AuthInput } from "../../components/inputs/AuthInput";
+import { Link, useNavigate } from "react-router-dom";
+import { Input } from "../../components/inputs/Input";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import { BarLoader } from "react-spinners";
 import { login_user } from "../../api/authApi";
+import { useDispatch } from "react-redux";
+import { isUserLoggedIn } from "../../store/reducers/user";
 
 export const Login = () => {
   const userInfo = {
@@ -16,7 +18,10 @@ export const Login = () => {
   };
   const [showPassword, setShowPassword] = useState(false);
   const [userData, setUserData] = useState(userInfo);
+  const [error, setError] = useState("");
   const { email, password } = userData;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleOnchange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
@@ -28,8 +33,16 @@ export const Login = () => {
   const handleSubmit = async () => {
     try {
       await login_user(userData);
+      dispatch(isUserLoggedIn());
+      navigate("/");
     } catch (error) {
       console.log(error.message);
+      if (
+        error.message === "Firebase: Error (auth/user-not-found)." ||
+        error.message === "Firebase: Error (auth/wrong-password)."
+      ) {
+        setError("Wrong email or password");
+      }
     }
   };
   return (
@@ -47,7 +60,7 @@ export const Login = () => {
           <Form className="w-full flex flex-col gap-4">
             <div className="relative">
               <AiOutlineMail className="top-3.5 absolute left-1" />
-              <AuthInput
+              <Input
                 type="text"
                 name="email"
                 value={email}
@@ -57,7 +70,7 @@ export const Login = () => {
             </div>
             <div className="relative">
               <FiLock className="top-3.5 absolute left-1" />
-              <AuthInput
+              <Input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
@@ -96,6 +109,7 @@ export const Login = () => {
                 </div>
               )}
             </button>
+            {error && <p className="text-red-600 text-center">{error}</p>}
             <h2 className="text-center">
               You already have an account?{" "}
               <Link

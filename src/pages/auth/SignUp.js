@@ -3,12 +3,13 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FaRegUser } from "react-icons/fa";
 import { FiLock, FiLogIn } from "react-icons/fi";
 import { ImEye, ImEyeBlocked } from "react-icons/im";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { register_user } from "../../api/authApi";
-import { AuthInput } from "../../components/inputs/AuthInput";
+import { Input } from "../../components/inputs/Input";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
+import { toast } from "react-toastify";
 
 export const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,7 +20,9 @@ export const SignUp = () => {
   };
   const [userData, setUserData] = useState(userInfo);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const { username, email, password } = userData;
+  const navigate = useNavigate();
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -34,8 +37,11 @@ export const SignUp = () => {
   const handleSubmit = async () => {
     try {
       await register_user(userData);
+      toast.success("Account Created Successfully");
+      navigate("/login");
     } catch (error) {
-      console.log(error.message);
+      if (error.message === "Firebase: Error (auth/email-already-in-use).")
+        toast.error("This email is already in use. please try another one");
     }
   };
   return (
@@ -53,7 +59,7 @@ export const SignUp = () => {
           <Form className="w-full flex flex-col gap-4">
             <div className="relative">
               <FaRegUser className="top-3.5 absolute left-1" />
-              <AuthInput
+              <Input
                 type="text"
                 name="username"
                 value={username}
@@ -63,7 +69,7 @@ export const SignUp = () => {
             </div>
             <div className="relative">
               <AiOutlineMail className="top-3.5 absolute left-1" />
-              <AuthInput
+              <Input
                 type="text"
                 name="email"
                 value={email}
@@ -73,7 +79,7 @@ export const SignUp = () => {
             </div>
             <div className="relative">
               <FiLock className="top-3.5 absolute left-1" />
-              <AuthInput
+              <Input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
@@ -112,6 +118,7 @@ export const SignUp = () => {
                 </div>
               )}
             </button>
+            {error && <p className="text-red-600">{error}</p>}
             <h2 className="text-center">
               You already have an account?{" "}
               <Link

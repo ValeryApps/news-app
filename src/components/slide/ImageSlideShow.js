@@ -15,9 +15,9 @@ export const ImageSlideShow = ({ posts }) => {
   };
   const imagePosts = posts.filter((x) => x.images.length > 0);
   return (
-    <div className="h-[21rem] flex min-w-full gap-3 z-20">
+    <div className="h-[22rem] flex min-w-full gap-3 z-20 bg-white py-1 px-1">
       <div className="min-w-[50%] bg-[#bdb76b] h-[21rem]">
-        <div className="slide-container relative max-h-[334px]">
+        <div className="slide-container relative max-h-[340px]">
           <Zoom {...zoomOutProperties}>
             {imagePosts.slice(0, 10).map((story, index) => (
               <div
@@ -27,7 +27,7 @@ export const ImageSlideShow = ({ posts }) => {
                 <img
                   src={story.images[0]}
                   alt=""
-                  className="w-full object-cover h-[336px]"
+                  className="w-full object-cover h-[340px]"
                 />
                 <div className="bg-[#00000080] relative px-2 bottom-32 max-w-[300px] min-h-[90px] rounded-r-2xl">
                   <Link to={`/post/${story.slug}`}>

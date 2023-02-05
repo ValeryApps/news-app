@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { categories } from "../data/categories";
 import { AppIntro } from "./AppIntro";
@@ -7,13 +7,27 @@ import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
 import { CategoriesDrawer } from "./CategoriesDrawer";
+import { getAuth } from "firebase/auth";
+import { useAuthStatus } from "../hooks/useAuthStatus";
+import { UserMenu } from "./UserMenu";
 
 export const AppHeader = () => {
+  const auth = getAuth();
+
   const { pathname } = useLocation();
   const [isVisible, setIsVisible] = useState(false);
   const [isCountryDrawer, setIsCountryDrawer] = useState(false);
   const [isCategoryDrawer, setIsCategoryDrawer] = useState(false);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { loggedIn } = useAuthStatus();
+  const [showMenu, setShowMenu] = useState(false);
+  useEffect(() => {
+    loggedIn ? setIsLoggedIn(true) : setIsLoggedIn(false);
+  }, [loggedIn]);
+  const logout = async () => {
+    await auth.signOut();
+    setIsLoggedIn(false);
+  };
   return (
     <>
       <div className="hidden md:block">
@@ -66,17 +80,31 @@ export const AppHeader = () => {
               More News...
             </div>
           </div>
-          <div className="flex gap-3 items-center">
-            <Link className="text-white" to="/login">
-              LOGIN
-            </Link>
-            <Link
-              className="bg-teal-500 px-3 py-1 rounded-md text-white"
-              to="/register"
+          {!isLoggedIn ? (
+            <div className="flex gap-3 items-center">
+              <Link className="text-white" to="/login">
+                LOGIN
+              </Link>
+              <Link
+                className="bg-teal-500 px-3 py-1 rounded-md text-white"
+                to="/register"
+              >
+                SIGN UP
+              </Link>
+            </div>
+          ) : (
+            <div
+              onMouseEnter={() => setShowMenu(true)}
+              onMouseLeave={() => setShowMenu(false)}
+              className=" py-2"
             >
-              SIGN UP
-            </Link>
-          </div>
+              {" "}
+              <span className="text-white cursor-pointer">
+                {auth.currentUser?.displayName}
+              </span>
+              {showMenu && <UserMenu logout={logout} />}
+            </div>
+          )}
           <div
             onClick={() => setIsCategoryDrawer(!isCategoryDrawer)}
             className="md:hidden"
